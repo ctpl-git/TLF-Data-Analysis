@@ -1,9 +1,0 @@
-Functions that can be used for data extration:
-
-read_csv(): to read data from CSV files
-read_excel(): to read data from Excel files
-read_json(): to read data from JSON files
-read_sql(): to read data from SQL databases
-read_html(): to read data from HTML tables
-read_text(): to read data from text files
-read_image(): to read data from image files

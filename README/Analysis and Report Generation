@@ -1,9 +1,0 @@
-Functions that can be used for data analysis and report generation:
-
-describe(): to compute summary statistics for a DataFrame
-plot(): to create various types of plots and charts
-corr(): to compute the correlation between columns in a DataFrame
-pivot_table(): to create a pivot table from a DataFrame
-crosstab(): to create a cross-tabulation of two or more columns in a DataFrame
-to_excel(): to write a DataFrame to an Excel file
-to_csv(): to write a DataFrame to a CSV file

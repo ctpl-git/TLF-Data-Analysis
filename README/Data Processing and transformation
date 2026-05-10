@@ -1,9 +1,0 @@
-Functions that can be used for data processing:
-
-groupby(): to group data by one or more columns in a DataFrame
-apply(): to apply a function to each row or column in a DataFrame
-aggregate(): to compute aggregate statistics on groups in a DataFrame
-pivot_table(): to create a pivot table from a DataFrame
-merge(): to merge two DataFrames based on a common column
-sort_values(): to sort a DataFrame by one or more columns
-value_counts(): to count the number of occurrences of each value in a column

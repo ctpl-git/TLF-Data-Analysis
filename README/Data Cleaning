@@ -1,9 +1,0 @@
-Functions that can be used for data cleaning:
-
-drop_duplicates(): to remove duplicate rows from a DataFrame
-fillna(): to fill missing values in a DataFrame
-replace(): to replace values in a DataFrame
-dropna(): to drop rows or columns with missing values
-rename(): to rename columns or indexes in a DataFrame
-drop(): to drop specific columns or rows from a DataFrame
-map(): to map values from one set to another in a DataFrame

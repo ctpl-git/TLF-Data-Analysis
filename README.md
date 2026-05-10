@@ -15,7 +15,7 @@ Heavy computation and interpretation of data. This repo handles the analytical c
 
 **tlf-statistical-summary**
 
-Descriptive stats engine for South Asian civic/census datasets
+Descriptive stats engine for datasets
 
 **tlf-trend-detector**
 

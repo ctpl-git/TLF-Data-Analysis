@@ -7,9 +7,17 @@ from .io import read_data, write_data
 from .cleaning import handle_missing
 from .transform import sort_data
 
+from .analysis import run_analysis, run_quick_analysis
+from .schema import ColumnMeta, DataRole
+
 def run_pipeline(input_path, output_path):
     df = read_data(input_path)
     df = handle_missing(df, strategy="drop")
     df = sort_data(df, by=df.columns[0])
     write_data(df, output_path)
     return df
+
+
+def run_analysis_pipeline(input_path, target):
+    df = read_data(input_path)
+    return run_quick_analysis(df, target)

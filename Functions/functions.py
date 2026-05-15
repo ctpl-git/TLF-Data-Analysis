@@ -10,6 +10,8 @@ from .transform import sort_data
 from .analysis import run_analysis, run_quick_analysis
 from .schema import ColumnMeta, DataRole
 
+from .visualize import run_visualization, run_interactive_visualization
+
 def run_pipeline(input_path, output_path):
     df = read_data(input_path)
     df = handle_missing(df, strategy="drop")
@@ -21,3 +23,8 @@ def run_pipeline(input_path, output_path):
 def run_analysis_pipeline(input_path, target):
     df = read_data(input_path)
     return run_quick_analysis(df, target)
+
+
+def run_visualization_pipeline(input_path, target, x_col=None):
+    df = read_data(input_path)
+    return run_visualization(df, target, x_col=x_col)

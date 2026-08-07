@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tlf-statistical-summary"
+version = "0.1.0"
+description = "Schema-free, generic descriptive statistics for any tabular data (CSV/Excel/JSON) — part of The Living Facts (TLF)."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Sanchita Karki", email = "karkisanchu06@gmail.com" },
+]
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+
+# openpyxl (Excel), questionary (interactive CLI prompts), and xlrd
+# (legacy .xls support) are core dependencies rather than optional
+# extras — Excel reading and the interactive CLI are core, expected
+# functionality of this package, not niche add-ons. matplotlib and
+# xhtml2pdf back the HTML/PDF report export.
+dependencies = [
+    "pandas>=1.5",
+    "openpyxl>=3.1",
+    "xlrd>=2.0",
+    "questionary>=2.0",
+    "matplotlib>=3.7",
+    "xhtml2pdf>=0.2.15",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[project.urls]
+Homepage = "https://github.com/ctpl-git/TLF-Data-Analysis"
+Repository = "https://github.com/ctpl-git/TLF-Data-Analysis"
+Issues = "https://github.com/ctpl-git/TLF-Data-Analysis/issues"
+
+[project.scripts]
+tlf-statistical-summary = "tlf_statistical_summary.main:main"
+
+[tool.setuptools]
+packages = ["tlf_statistical_summary"]

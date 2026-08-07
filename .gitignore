@@ -1,0 +1,39 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Virtual environments ---
+venv/
+.venv/
+env/
+ENV/
+
+# --- Generated report/export outputs (run artifacts, not fixtures) ---
+# Applies under either package's own tree.
+**/*_full_report.txt
+**/*_region_summary.csv
+**/export*.csv
+**/export*.json
+**/export*.html
+**/export*.pdf
+**/*_report.html
+**/*_report.pdf
+
+# --- Local-only scripts / build tooling ---
+pdf_to_report.py
+main.py.legacy
+
+# --- Editor/OS cruft ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

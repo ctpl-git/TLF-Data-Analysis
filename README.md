@@ -7,6 +7,7 @@ The analytical core of the TLF pipeline. TLF Data Analysis performs heavy comput
 ## Table of Contents
 
 - [Overview](#overview)
+- [Currently Available](#currently-available)
 - [Architecture](#architecture)
 - [Python Packages](#python-packages)
 - [npm Packages](#npm-packages)
@@ -31,8 +32,26 @@ TLF Data Analysis transforms raw datasets into actionable intelligence. It is sp
 - **NLP Insight Extraction** — Keyword extraction, sentiment analysis, and entity recognition on regional-language text datasets.
 - **Visualization & Reporting** — Annotated charts, interactive plots, and exportable HTML/PDF reports.
 
-**Primary Stack:** Python, Bash  
+**Primary Stack:** Python, Bash
 **Categories:** Data, Artificial Intelligence, Computation
+
+Everything below this point describes the long-term vision for this repo. For what you can actually install and use **today**, see [Currently Available](#currently-available) — the rest of this README is a roadmap, not a changelog.
+
+---
+
+## Currently Available
+
+Two packages are built, tested, and ready to use today. Everything else in this README (the platform services, npm packages, web UI, database/search/queue infrastructure) is planned, not yet built.
+
+| Package | Description | Install |
+|---|---|---|
+| [`tlf-census-stats`](tlf-census-stats/) | Census-specific statistical analysis for South and Southeast Asian countries (Nepal, India, Bangladesh, Pakistan, Sri Lanka, Bhutan). Fixed canonical schema (`region`/`subregion`/`total_population`/`male`/`female`/`households`, plus optional fields like `third_gender`), per-country column aliasing, India PDF-table transform, HTML/PDF/CSV/JSON reporting, interactive CLI. | `pip install tlf-census-stats` |
+| [`tlf-statistical-summary`](tlf-statistical-summary/) | Schema-free, generic descriptive statistics for **any** tabular data (CSV/Excel/JSON) — no fixed columns, no domain assumptions. Auto-detects column types, lets you name a group-by/ranking/outlier column at runtime, interactive CLI, HTML/PDF/CSV/JSON reporting. Use this for non-census data (e.g. weather, sales) or any dataset without a known schema. | `pip install tlf-statistical-summary` |
+
+Both are part of the TLF ("The Living Facts") initiative but have **no runtime dependency on each other** or on any other package in this README's roadmap.
+
+**Combining with TLF-Data-Manager:** census data usually starts as a government PDF, not a clean CSV — the separate [`TLF-Data-Manager`](https://github.com/ctpl-git/TLF-Data-Manager) repo's `tlf-data-cleaning` package handles extraction/cleaning, with no runtime dependency between the two repos (they compose through a canonical CSV shape, not shared code). 
+See [`tlf-census-stats`'s README](tlf-census-stats/README.md#combining-with-tlf-data-cleaning) for the three concrete workflows (already-clean data, flat-country PDF, India's hierarchical PDF).
 
 ---
 
@@ -42,25 +61,25 @@ The project follows a **package-first** design:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                  TLF Data Analysis Platform                  │
+│                  TLF Data Analysis Platform                 │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐   │
 │  │   Web UI     │  │   Report     │  │   API Gateway    │   │
 │  │  (React)     │  │   Builder    │  │   (FastAPI)      │   │
-│  └──────┬───────┘  └──────┬───────┘  └────────┬─────────┘   │
-│         └──────────────────┼───────────────────┘             │
+│  └──────┬───────┘  └───────┬──────┘  └────────┬─────────┘   │
+│         └──────────────────┼──────────────────┘             │
 │                            │                                │
 │  ┌─────────────────────────┴─────────────────────────────┐  │
-│  │            Platform Services (Orchestration)           │  │
+│  │            Platform Services (Orchestration)          │  │
 │  │  Stats │ Trends │ Anomalies │ Compare │ Correlate │   │  │
-│  │  Profile │ Indicators │ NLP │ Visualize │ Reports   │  │  │
-│  └─────────────────────────────────────────────────────┘  │
+│  │  Profile │ Indicators │ NLP │ Visualize │ Reports │   │  │
+│  └───────────────────────────────────────────────────────┘  │
 │                            │                                │
 │         ┌──────────────────┼──────────────────┐             │
 │         ▼                  ▼                  ▼             │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │ Python pkgs  │  │   npm pkgs   │  │   Storage    │      │
-│  │  (Backend)   │  │  (Frontend)  │  │  (DB / S3)   │      │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │ Python pkgs  │  │   npm pkgs   │  │   Storage    │       │
+│  │  (Backend)   │  │  (Frontend)  │  │  (DB / S3)   │       │
+│  └──────────────┘  └──────────────┘  └──────────────┘       │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -72,7 +91,8 @@ Each package is **published independently** to PyPI or npm, allowing external pr
 
 | Package | Description | Issue Mapping |
 |---------|-------------|---------------|
-| `tlf-statistical-summary` | Foundation layer for loading, structuring, and describing data. Generates descriptive stats (mean, median, mode, variance, distribution) calibrated for South Asian civic and census datasets. Handles missing data patterns common in SGD/GCE sources. | #1 Basic data handling, #2 Statistical analysis |
+| `tlf-census-stats` | ✅ **Available now.** Fixed-schema statistical analysis for South/Southeast Asian census data — country-specific column aliasing, India PDF transform, HTML/PDF/CSV/JSON reporting. | #1 Basic data handling, #2 Statistical analysis |
+| `tlf-statistical-summary` | ✅ **Available now.** Schema-free foundation layer for loading, structuring, and describing *any* tabular data. Auto-detects column types and generates descriptive stats (mean, median, std, distribution shape) without assuming a fixed schema — usable well beyond civic/census datasets. | #1 Basic data handling, #2 Statistical analysis |
 | `tlf-correlation-engine` | Computes Pearson, Spearman, and Kendall correlations across multi-dimensional datasets. Designed for cross-sector analysis such as education vs income in South Asian regions. | #2 Statistical analysis |
 | `tlf-trend-detector` | Analyzes time-indexed datasets to identify upward, downward, and cyclical trends. Supports seasonal decomposition and rolling averages relevant to South Asian development indicators. | #4 Advanced analysis techniques |
 | `tlf-anomaly-flagger` | Detects statistical anomalies using isolation forests and z-score methods. Flags records for manual review without disrupting the data flow. Serves as the *analysis-side* of data cleaning. | #5 Preprocessing & cleaning |
@@ -91,12 +111,18 @@ Each package is **published independently** to PyPI or npm, allowing external pr
 ### Installation
 
 ```bash
-pip install tlf-statistical-summary tlf-correlation-engine tlf-trend-detector
+# What actually exists today:
+pip install tlf-census-stats tlf-statistical-summary
+
+# Planned (not yet published):
+pip install tlf-correlation-engine tlf-trend-detector
 ```
 
 ---
 
 ## npm Packages
+
+*(Planned — none of these exist yet.)*
 
 | Package | Description |
 |---------|-------------|
@@ -121,7 +147,7 @@ npm install @tlf/analysis-sdk @tlf/react-chart-components
 
 ## Platform Services
 
-The platform composes packages into deployable, scalable services:
+*(Planned — this orchestration/deployment layer doesn't exist yet. Today, `tlf-census-stats` and `tlf-statistical-summary` are standalone Python packages/CLIs, not services.)*
 
 | Service | Responsibility |
 |---------|----------------|
@@ -147,7 +173,7 @@ The platform composes packages into deployable, scalable services:
 
 Based on the project issues, the implementation sequence is:
 
-1. **Foundation — Data Handling & Statistics**
+1. **Foundation — Data Handling & Statistics** ✅ *(in progress — `tlf-census-stats` and `tlf-statistical-summary` are built and published)*
    - Implement basic data loading, structuring, and handling functions.
    - Build `tlf-statistical-summary` with descriptive stats calibrated for SGD/GCE sources.
    - Add `tlf-correlation-engine` for variable relationship analysis.
@@ -184,7 +210,7 @@ Based on the project issues, the implementation sequence is:
 
 ## Getting Started
 
-### Prerequisites
+### Prerequisites (for the platform vision described above)
 
 - Python 3.11+
 - Node.js 20+
@@ -192,23 +218,27 @@ Based on the project issues, the implementation sequence is:
 - Redis 7+ (for caching and job queues)
 - Optional: Elasticsearch 8+ (for indexing analysis results)
 
-### Quick Start
+### Quick Start — using what's available today
 
 ```bash
-# Clone the monorepo
+pip install tlf-census-stats tlf-statistical-summary
+
+# Or from source, in this monorepo:
 git clone https://github.com/ctpl-git/TLF-Data-Analysis.git
 cd TLF-Data-Analysis
 
-# Install Python dependencies
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ./tlf-census-stats
+pip install -e ./tlf-statistical-summary
 
+pytest tlf-census-stats/tests
+pytest tlf-statistical-summary/tests
+```
+
+### Quick Start — full platform vision (not yet buildable)
+
+```bash
 # Install Node dependencies
 npm install
-
-# Run tests
-pytest packages/tlf-statistical-summary/tests
 
 # Start the platform
 docker-compose up

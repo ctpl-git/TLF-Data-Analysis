@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tlf-census-stats"
-version = "0.1.0"
+version = "0.1.1"
 description = "Census-specific statistical analysis for South and Southeast Asian countries — part of The Living Facts (TLF)."
 readme = "README.md"
-license = { text = "MIT" }
+license = "MIT"
 authors = [
     { name = "Sanchita Karki", email = "karkisanchu06@gmail.com" },
 ]
@@ -15,7 +15,6 @@ requires-python = ">=3.9"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -47,7 +46,7 @@ Issues = "https://github.com/ctpl-git/TLF-Data-Analysis/issues"
 tlf-census-stats = "tlf_census_stats.main:main"
 
 [tool.setuptools]
-packages = ["tlf_census_stats"]
+packages = ["tlf_census_stats", "tlf_census_stats.data", "tlf_census_stats.data.sample"]
 
 [tool.setuptools.package-data]
 tlf_census_stats = ["data/sample/*.csv"]
